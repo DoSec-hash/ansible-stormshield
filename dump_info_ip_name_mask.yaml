@@ -1,0 +1,10 @@
+- hosts: localhost
+  connection: local
+  vars:
+    - appliancelist: "{{ groups['sns-appliances'] }}"
+
+  gather_facts: true
+
+  tasks:
+    - include: dump_info_ip_name_mask-task.yaml target="{{ item }}"
+      with_items: "{{ appliancelist }}"
