@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    appliance:
+      host: 192.168.0.250
+      user: admin
+      password: admin
+      sslverifyhost: False
+
+  tasks:
+    - name: "Creation dun object network"
+      sns_command:
+        appliance: "{{ appliance }}"
+        script: |
+          CONFIG OBJECT NETWORK NEW name=LAN_DATACENTER comment="NETWORK LAN DATACENTER" ip=192.168.88.0 mask=255.255.255.0
+          CONFIG OBJECT ACTIVATE
