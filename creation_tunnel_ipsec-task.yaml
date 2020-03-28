@@ -23,7 +23,7 @@
   sns_command:
     appliance: "{{ hostvars[target]['vars'] }}"
     script: |
-      CONFIG IPSEC PEER NEW name=Site_GW_DATACENTER method=psk dst=GW_DATACENTER conf=GoodEncryption src=Any psk=0x4c436937694c32537438356d ikeversion=1 dpd_mode=passive global=0
+      CONFIG IPSEC PEER NEW name=Site_GW_DATACENTER method=psk dst=GW_DATACENTER conf=GoodEncryption src=Any psk=0x48436888837694c32537438356d ikeversion=1 dpd_mode=passive global=0
       CONFIG IPSEC ACTIVATE
 
 - name: "Creation du tunnel"
