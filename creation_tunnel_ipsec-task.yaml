@@ -10,8 +10,15 @@
     appliance: "{{ hostvars[target]['vars'] }}"
     script: |
       CONFIG OBJECT HOST NEW name=GW_DATACENTER comment= ip=13.192.188.96 resolve=static mac=
-      CONFIG OBJECT ACTIVATE	  
-
+      CONFIG OBJECT ACTIVATE
+      
+- name: "Creation du separateur"
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    script: |
+      CONFIG IPSEC POLICY GATEWAY ADDSEP slot=1 color=FF6600 collapse=0 comment="IPSEC DATACETER" global=0
+      CONFIG IPSEC ACTIVATE
+      
 - name: "Creation IKEV1"
   sns_command:
     appliance: "{{ hostvars[target]['vars'] }}"
