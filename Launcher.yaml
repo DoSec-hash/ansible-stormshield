@@ -1,0 +1,10 @@
+- hosts: localhost
+  connection: local
+  vars:
+    - appliancelist: "{{ groups['sns-appliances'] }}"
+
+  gather_facts: true
+
+  tasks:
+    - include: $task target="{{ item }}"
+      with_items: "{{ appliancelist }}"

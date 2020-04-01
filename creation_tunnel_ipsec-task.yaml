@@ -1,0 +1,34 @@
+- name: "Creation objet network datacenter"
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    script: |
+      CONFIG OBJECT NETWORK NEW name=LAN_DATACENTER comment="NETWORK LAN DATACENTER" ip=192.168.80.0 mask=255.255.255.0
+      CONFIG OBJECT ACTIVATE
+
+- name: "Creation host gateway datacenter"
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    script: |
+      CONFIG OBJECT HOST NEW name=GW_DATACENTER comment= ip=13.192.188.96 resolve=static mac=
+      CONFIG OBJECT ACTIVATE
+      
+- name: "Creation du separateur"
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    script: |
+      CONFIG IPSEC POLICY GATEWAY ADDSEP slot=1 color=FF6600 collapse=0 comment="IPSEC DATACETER" global=0
+      CONFIG IPSEC ACTIVATE
+      
+- name: "Creation IKEV1"
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    script: |
+      CONFIG IPSEC PEER NEW name=Site_GW_DATACENTER method=psk dst=GW_DATACENTER conf=GoodEncryption src=Any psk=0x48436888837694c32537438356d ikeversion=1 dpd_mode=passive global=0
+      CONFIG IPSEC ACTIVATE
+
+- name: "Creation du tunnel"
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    script: |
+      CONFIG IPSEC POLICY GATEWAY ADD slot=1 state=on local=Network_in remote=LAN_DATACENTER peer=Site_GW_DATACENTER conf=GoodEncryption proto=any  keepalive=30 comment= global=0
+      CONFIG IPSEC ACTIVATE
