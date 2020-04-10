@@ -1,0 +1,16 @@
+- name: Get appliance information
+  sns_command:
+    appliance: "{{ hostvars[target]['vars'] }}"
+    command: SYSTEM LICENCE DUMP
+  register: sysprop
+
+
+- name: extraction date de fin de maintenance
+  sns_getconf:
+    result: "{{ sysprop.result }}"
+    section: Date
+    token: Update
+  register: update
+
+- debug:
+    msg: "Appliance: {{ target }} fin de maintenance: {{ update.value }}"
